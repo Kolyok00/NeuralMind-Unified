@@ -1,0 +1,85 @@
+{
+    "core_agent": {
+        "enabled": true,
+        "provider": "ollama",
+        "model": "qwen:7b",
+        "max_tokens": 4096,
+        "temperature": 0.1,
+        "timeout": 30
+    },
+    "embedding": {
+        "enabled": true,
+        "model": "nomic-embed-text",
+        "chunk_size": 1000,
+        "chunk_overlap": 200,
+        "supabase_url": "${SUPABASE_URL}",
+        "batch_size": 10
+    },
+    "vtuber": {
+        "enabled": true,
+        "model_path": "vtuber/models/default.vrm",
+        "voice_enabled": true,
+        "animation_enabled": true,
+        "tts_enabled": true,
+        "streaming": {
+            "platform": "obs",
+            "resolution": "1920x1080",
+            "fps": 30,
+            "bitrate": 2500
+        }
+    },
+    "workflows": {
+        "enabled": true,
+        "auto_start": [
+            "health_check",
+            "model_warmup"
+        ],
+        "n8n_url": "http://localhost:5678",
+        "timeout": 60
+    },
+    "web_ui": {
+        "enabled": true,
+        "host": "0.0.0.0",
+        "port": 8888,
+        "cors_enabled": true,
+        "static_files": "static",
+        "upload_limit": "50MB"
+    },
+    "monitoring": {
+        "enabled": true,
+        "langfuse_enabled": true,
+        "metrics_interval": 60,
+        "log_level": "INFO",
+        "health_check_interval": 30
+    },
+    "services": {
+        "ollama_url": "http://localhost:11434",
+        "supabase_url": "${SUPABASE_URL}",
+        "neo4j_uri": "bolt://localhost:7687",
+        "redis_url": "redis://localhost:6379",
+        "crawl4ai_url": "http://localhost:8000",
+        "searxng_url": "http://localhost:8080",
+        "whisper_url": "http://localhost:8081"
+    },
+    "security": {
+        "cors_origins": [
+            "http://localhost:3000",
+            "http://localhost:8888"
+        ],
+        "api_key_required": false,
+        "rate_limiting": {
+            "enabled": true,
+            "requests_per_minute": 100
+        }
+    },
+    "features": {
+        "code_generation": true,
+        "code_review": true,
+        "documentation_generation": true,
+        "web_crawling": true,
+        "vector_search": true,
+        "workflow_automation": true,
+        "voice_interaction": false,
+        "streaming": false
+    }
+}

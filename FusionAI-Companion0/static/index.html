@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FusionAI Companion</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-robot text-3xl"></i>
+                    <h1 class="text-2xl font-bold">FusionAI Companion</h1>
+                </div>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="#features" class="hover:text-blue-200 transition">Features</a>
+                    <a href="#api" class="hover:text-blue-200 transition">API</a>
+                    <a href="#docs" class="hover:text-blue-200 transition">Docs</a>
+                    <a href="/docs" class="bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-50 transition">API
+                        Docs</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-5xl font-bold mb-6">Unified AI Agent Ecosystem</h2>
+            <p class="text-xl mb-8 max-w-3xl mx-auto">
+                Self-hosted AI companion with code generation, RAG, VTuber capabilities,
+                and workflow automation in one modular platform.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="testConnection()"
+                    class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition">
+                    <i class="fas fa-play mr-2"></i>Test Connection
+                </button>
+                <a href="/docs"
+                    class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition">
+                    <i class="fas fa-book mr-2"></i>View API Docs
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section id="features" class="py-20">
+        <div class="container mx-auto px-6">
+            <h3 class="text-3xl font-bold text-center mb-12 text-gray-800">Core Features</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Agent Manager -->
+                <div class="bg-white rounded-xl p-6 shadow-lg card-hover transition-all duration-300">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-brain text-blue-600 text-xl"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-3">AI Agent Manager</h4>
+                    <p class="text-gray-600 mb-4">Advanced code generation, review, and chat with multiple AI providers
+                        (Ollama, OpenAI, Anthropic, Groq).</p>
+                    <button onclick="testAgent()" class="text-blue-600 hover:text-blue-800 font-semibold">
+                        Test Agent <i class="fas fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+
+                <!-- Embedding Service -->
+                <div class="bg-white rounded-xl p-6 shadow-lg card-hover transition-all duration-300">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-search text-green-600 text-xl"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-3">RAG & Embedding</h4>
+                    <p class="text-gray-600 mb-4">Intelligent document processing, web crawling, and vector search with
+                        Supabase integration.</p>
+                    <button onclick="testEmbedding()" class="text-green-600 hover:text-green-800 font-semibold">
+                        Test Embedding <i class="fas fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+
+                <!-- VTuber Avatar -->
+                <div class="bg-white rounded-xl p-6 shadow-lg card-hover transition-all duration-300">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-video text-purple-600 text-xl"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-3">VTuber Controller</h4>
+                    <p class="text-gray-600 mb-4">Live avatar animation, text-to-speech, and streaming integration with
+                        OBS support.</p>
+                    <button onclick="testVTuber()" class="text-purple-600 hover:text-purple-800 font-semibold">
+                        Test VTuber <i class="fas fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+
+                <!-- Workflow Manager -->
+                <div class="bg-white rounded-xl p-6 shadow-lg card-hover transition-all duration-300">
+                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-cogs text-orange-600 text-xl"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-3">Workflow Automation</h4>
+                    <p class="text-gray-600 mb-4">n8n integration for automated workflows, triggers, and complex AI
+                        agent orchestration.</p>
+                    <button onclick="testWorkflow()" class="text-orange-600 hover:text-orange-800 font-semibold">
+                        Test Workflow <i class="fas fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+
+                <!-- Web API -->
+                <div class="bg-white rounded-xl p-6 shadow-lg card-hover transition-all duration-300">
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-api text-red-600 text-xl"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-3">REST API</h4>
+                    <p class="text-gray-600 mb-4">Comprehensive FastAPI interface exposing all features with OpenAPI
+                        documentation.</p>
+                    <a href="/docs" class="text-red-600 hover:text-red-800 font-semibold">
+                        View API Docs <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- Health Monitoring -->
+                <div class="bg-white rounded-xl p-6 shadow-lg card-hover transition-all duration-300">
+                    <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-heartbeat text-teal-600 text-xl"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-3">Health Monitoring</h4>
+                    <p class="text-gray-600 mb-4">Real-time system health checks, Docker container monitoring, and
+                        service status.</p>
+                    <button onclick="checkHealth()" class="text-teal-600 hover:text-teal-800 font-semibold">
+                        Check Health <i class="fas fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Status Section -->
+    <section class="bg-gray-50 py-12">
+        <div class="container mx-auto px-6">
+            <div class="bg-white rounded-xl p-6 shadow-lg">
+                <h3 class="text-2xl font-bold mb-6 text-gray-800">System Status</h3>
+                <div id="statusContainer" class="space-y-4">
+                    <div class="text-center text-gray-500">
+                        <i class="fas fa-spinner fa-spin text-2xl mb-2"></i>
+                        <p>Click "Test Connection" to check system status</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2024 FusionAI Companion. Open source AI agent ecosystem.</p>
+            <div class="mt-4 flex justify-center space-x-4">
+                <a href="/docs" class="hover:text-blue-400 transition">API Documentation</a>
+                <a href="/health" class="hover:text-blue-400 transition">Health Check</a>
+                <a href="https://github.com" class="hover:text-blue-400 transition">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // API base URL
+        const API_BASE = '';
+
+        // Test connection to the API
+        async function testConnection() {
+            updateStatus('Testing connection...', 'loading');
+
+            try {
+                const response = await fetch('/health');
+                const data = await response.json();
+
+                if (response.ok) {
+                    updateStatus('✅ Connection successful!', 'success');
+                    displayHealthData(data);
+                } else {
+                    updateStatus('❌ Connection failed', 'error');
+                }
+            } catch (error) {
+                updateStatus(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Test AI Agent
+        async function testAgent() {
+            updateStatus('Testing AI Agent...', 'loading');
+
+            try {
+                const response = await fetch('/agent/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: 'Hello! Can you tell me what you can do?'
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    updateStatus('✅ AI Agent is working!', 'success');
+                    addStatusItem('AI Response', data.response || 'Agent responded successfully');
+                } else {
+                    updateStatus('❌ AI Agent test failed', 'error');
+                }
+            } catch (error) {
+                updateStatus(`❌ Agent Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Test Embedding Service
+        async function testEmbedding() {
+            updateStatus('Testing Embedding Service...', 'loading');
+
+            try {
+                const response = await fetch('/embedding/embed', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        text: 'This is a test text for embedding'
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    updateStatus('✅ Embedding Service is working!', 'success');
+                    addStatusItem('Embedding', `Generated ${data.embedding?.length || 0} dimensions`);
+                } else {
+                    updateStatus('❌ Embedding test failed', 'error');
+                }
+            } catch (error) {
+                updateStatus(`❌ Embedding Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Test VTuber Controller
+        async function testVTuber() {
+            updateStatus('Testing VTuber Controller...', 'loading');
+
+            try {
+                const response = await fetch('/vtuber/status');
+                const data = await response.json();
+
+                if (response.ok) {
+                    updateStatus('✅ VTuber Controller is available!', 'success');
+                    addStatusItem('VTuber Status', data.status || 'Ready');
+                } else {
+                    updateStatus('❌ VTuber test failed', 'error');
+                }
+            } catch (error) {
+                updateStatus(`❌ VTuber Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Test Workflow Manager
+        async function testWorkflow() {
+            updateStatus('Testing Workflow Manager...', 'loading');
+
+            try {
+                const response = await fetch('/workflows/status');
+                const data = await response.json();
+
+                if (response.ok) {
+                    updateStatus('✅ Workflow Manager is working!', 'success');
+                    addStatusItem('Workflows', `${data.active_workflows || 0} active workflows`);
+                } else {
+                    updateStatus('❌ Workflow test failed', 'error');
+                }
+            } catch (error) {
+                updateStatus(`❌ Workflow Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Check system health
+        async function checkHealth() {
+            updateStatus('Checking system health...', 'loading');
+
+            try {
+                const response = await fetch('/health');
+                const data = await response.json();
+
+                if (response.ok) {
+                    updateStatus('✅ System health check complete!', 'success');
+                    displayHealthData(data);
+                } else {
+                    updateStatus('❌ Health check failed', 'error');
+                }
+            } catch (error) {
+                updateStatus(`❌ Health Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Update status display
+        function updateStatus(message, type) {
+            const container = document.getElementById('statusContainer');
+            const statusClass = type === 'success' ? 'text-green-600' : type === 'error' ? 'text-red-600' : 'text-blue-600';
+            const icon = type === 'loading' ? 'fa-spinner fa-spin' : type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+
+            container.innerHTML = `
+                <div class="text-center ${statusClass}">
+                    <i class="fas ${icon} text-2xl mb-2"></i>
+                    <p class="font-semibold">${message}</p>
+                </div>
+            `;
+        }
+
+        // Add status item
+        function addStatusItem(label, value) {
+            const container = document.getElementById('statusContainer');
+            const statusHtml = container.innerHTML;
+
+            container.innerHTML = statusHtml + `
+                <div class="flex justify-between items-center py-2 px-4 bg-gray-50 rounded-lg">
+                    <span class="font-medium text-gray-700">${label}:</span>
+                    <span class="text-gray-600">${value}</span>
+                </div>
+            `;
+        }
+
+        // Display health data
+        function displayHealthData(data) {
+            if (data.services) {
+                Object.entries(data.services).forEach(([service, status]) => {
+                    const statusText = status === 'healthy' ? '✅ Healthy' : '❌ Unhealthy';
+                    addStatusItem(service, statusText);
+                });
+            }
+
+            if (data.timestamp) {
+                addStatusItem('Last Check', new Date(data.timestamp).toLocaleString());
+            }
+        }
+    </script>
+</body>
+
+</html>

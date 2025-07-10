@@ -1,0 +1,132 @@
+# FusionAI Companion - Caddy Reverse Proxy Configuration
+
+# Main web interface
+localhost:80, fusionai.local {
+    # Open WebUI (Main AI Chat Interface)
+    handle /chat* {
+        reverse_proxy open-webui:8080
+    }
+
+    # n8n Workflow Interface
+    handle /workflows* {
+        reverse_proxy n8n:5678
+    }
+
+    # Langfuse Monitoring
+    handle /monitoring* {
+        reverse_proxy langfuse:3000
+    }
+
+    # Neo4j Browser
+    handle /graph* {
+        reverse_proxy neo4j:7474
+    }
+
+    # SearXNG Search
+    handle /search* {
+        reverse_proxy searxng:8080
+    }
+
+    # Crawl4AI API
+    handle /api/crawl* {
+        reverse_proxy crawl4ai:8000
+    }
+
+    # Whisper STT API
+    handle /api/stt* {
+        reverse_proxy whisper-cpp:8080
+    }
+
+    # Static files and default route
+    handle {
+        root * /srv
+        file_server
+        try_files {path} /index.html
+    }
+
+    # CORS headers for API calls
+    header {
+        Access-Control-Allow-Origin *
+        Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+        Access-Control-Allow-Headers "Content-Type, Authorization"
+    }
+}
+
+# API Gateway
+api.fusionai.local {
+    # Ollama API
+    handle /ollama* {
+        uri strip_prefix /ollama
+        reverse_proxy ollama:11434
+    }
+
+    # OpenAI Compatible API
+    handle /v1* {
+        reverse_proxy ollama:11434
+    }
+
+    # Crawl4AI API
+    handle /crawl* {
+        uri strip_prefix /crawl
+        reverse_proxy crawl4ai:8000
+    }
+
+    # Neo4j HTTP API
+    handle /db* {
+        uri strip_prefix /db
+        reverse_proxy neo4j:7474
+    }
+
+    # n8n Webhooks
+    handle /webhook* {
+        reverse_proxy n8n:5678
+    }
+
+    # Langfuse API
+    handle /tracing* {
+        uri strip_prefix /tracing
+        reverse_proxy langfuse:3000
+    }
+}
+
+# Development endpoints (only in development)
+:8080 {
+    # Direct access to services for debugging
+    handle /ollama* {
+        reverse_proxy ollama:11434
+    }
+
+    handle /n8n* {
+        reverse_proxy n8n:5678
+    }
+
+    handle /neo4j* {
+        reverse_proxy neo4j:7474
+    }
+
+    handle /langfuse* {
+        reverse_proxy langfuse:3000
+    }
+
+    handle /searxng* {
+        reverse_proxy searxng:8080
+    }
+}
+
+# VTuber Streaming (if SnekStudio is running)
+vtuber.fusionai.local {
+    reverse_proxy snekstudio:8090
+}
+
+# WebSocket connections
+ws.fusionai.local {
+    # Open WebUI WebSocket
+    handle /chat* {
+        reverse_proxy open-webui:8080
+    }
+
+    # n8n WebSocket
+    handle /workflows* {
+        reverse_proxy n8n:5678
+    }
+}

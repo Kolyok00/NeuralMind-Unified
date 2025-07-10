@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice2D Demo - Real-Time Voice & Live2D</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #222;
+            color: #eee;
+        }
+
+        #avatar {
+            width: 400px;
+            height: 600px;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .controls {
+            margin: 20px auto;
+            width: 400px;
+        }
+
+        input,
+        button {
+            font-size: 1em;
+            margin: 5px;
+        }
+
+        #status {
+            margin-top: 10px;
+            color: #8f8;
+        }
+    </style>
+    <!-- Live2D Cubism SDK for Web (via CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/pixi.js@6.5.8/dist/pixi.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@4.1.2/dist/pixi-live2d-display.min.js"></script>
+</head>
+
+<body>
+    <h1>Voice2D Demo</h1>
+    <div class="controls">
+        <label>Your User ID: <input id="userId" value="user1"></label><br>
+        <label>Target User ID: <input id="targetId" value="user2"></label><br>
+        <button id="connectBtn">Connect & Call</button>
+        <span id="status"></span>
+    </div>
+    <canvas id="avatar"></canvas>
+    <script>
+        // --- Live2D Avatar Setup ---
+        const app = new PIXI.Application({
+            view: document.getElementById('avatar'),
+            width: 400,
+            height: 600,
+            transparent: true
+        });
+        let model;
+        PIXI.live2d.Live2DModel.from('https://cdn.jsdelivr.net/gh/guansss/pixi-live2d-display@master/assets/Hiyori/Hiyori.model3.json')
+            .then(m => {
+                model = m;
+                model.scale.set(0.4);
+                model.x = 200;
+                model.y = 500;
+                app.stage.addChild(model);
+            });
+
+        // --- WebRTC + Signaling ---
+        let localStream, pc, ws, userId, targetId;
+        const servers = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+        const status = document.getElementById('status');
+
+        async function start() {
+            userId = document.getElementById('userId').value;
+            targetId = document.getElementById('targetId').value;
+            ws = new WebSocket(`ws://${location.host}/static/../ws/signaling/${userId}`);
+            ws.onopen = () => status.textContent = 'Signaling connected.';
+            ws.onmessage = async (event) => {
+                const msg = JSON.parse(event.data);
+                if (msg.data.sdp) {
+                    await pc.setRemoteDescription(new RTCSessionDescription(msg.data.sdp));
+                    if (msg.data.sdp.type === 'offer') {
+                        const answer = await pc.createAnswer();
+                        await pc.setLocalDescription(answer);
+                        ws.send(JSON.stringify({ to: msg.from, data: { sdp: pc.localDescription } }));
+                    }
+                } else if (msg.data.candidate) {
+                    await pc.addIceCandidate(new RTCIceCandidate(msg.data.candidate));
+                }
+            };
+            await setupCall();
+        }
+
+        async function setupCall() {
+            localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            pc = new RTCPeerConnection(servers);
+            pc.onicecandidate = (e) => {
+                if (e.candidate) {
+                    ws.send(JSON.stringify({ to: targetId, data: { candidate: e.candidate } }));
+                }
+            };
+            pc.ontrack = (e) => {
+                const audio = document.getElementById('remoteAudio');
+                if (audio) audio.srcObject = e.streams[0];
+            };
+            localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+            // Lip sync setup
+            setupLipSync(localStream);
+            // Initiate call if caller
+            if (userId && targetId) {
+                const offer = await pc.createOffer();
+                await pc.setLocalDescription(offer);
+                ws.send(JSON.stringify({ to: targetId, data: { sdp: pc.localDescription } }));
+            }
+        }
+
+        // --- Lip Sync (basic volume-based) ---
+        function setupLipSync(stream) {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const src = ctx.createMediaStreamSource(stream);
+            const analyser = ctx.createAnalyser();
+            analyser.fftSize = 2048;
+            src.connect(analyser);
+            const data = new Uint8Array(analyser.fftSize);
+            function animate() {
+                analyser.getByteTimeDomainData(data);
+                let sum = 0;
+                for (let i = 0; i < data.length; i++) {
+                    const val = (data[i] - 128) / 128;
+                    sum += val * val;
+                }
+                const volume = Math.sqrt(sum / data.length);
+                if (model) {
+                    // Live2D Cubism: ParamMouthOpenY controls mouth open
+                    model.internalModel.motionManager.update = () => { };
+                    model.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', volume * 2);
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+    </script>
+    <audio id="remoteAudio" autoplay></audio>
+</body>
+
+</html>

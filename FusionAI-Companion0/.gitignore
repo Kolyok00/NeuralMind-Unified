@@ -1,0 +1,248 @@
+# FusionAI Companion - Git Ignore File
+
+# Environment and Secrets
+.env
+.env.local
+.env.production
+.env.staging
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Docker and Container Data
+data/
+logs/
+models/
+audio/
+*.log
+
+# Database Files
+*.db
+*.sqlite
+*.sqlite3
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+env/
+ENV/
+.venv/
+.env/
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary Files
+tmp/
+temp/
+*.tmp
+*.temp
+*.cache
+
+# Build and Compilation
+*.o
+*.a
+*.la
+*.lo
+*.dll
+*.so
+*.dylib
+*.exe
+
+# Go
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+vendor/
+
+# Rust
+target/
+Cargo.lock
+
+# AI Model Files (too large for git)
+*.bin
+*.gguf
+*.ggml
+*.safetensors
+*.pt
+*.pth
+*.onnx
+
+# Docker volumes and data
+docker-data/
+postgres-data/
+neo4j-data/
+redis-data/
+ollama-data/
+
+# Caddy certificates and data
+caddy-data/
+caddy-config/
+
+# SearXNG configuration (may contain sensitive data)
+searxng/settings.yml
+searxng/uwsgi.ini
+
+# n8n workflow data
+n8n-data/
+workflows/data/
+
+# Supabase
+supabase/.branches
+supabase/.temp
+supabase/logs
+
+# Local development
+.local/
+.cache/
+
+# Backup files
+*.bak
+*.backup
+backup-*
+
+# Generated documentation
+docs/_build/
+site/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Test artifacts
+.tox/
+.nox/
+.coverage
+.pytest_cache/
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Local configuration overrides
+docker-compose.override.yml
+docker-compose.local.yml
+
+# API keys and secrets (additional patterns)
+*secret*
+*key*
+*token*
+*password*
+config.json
+credentials.json
+
+# VTuber model files (can be large)
+*.vrm
+*.vroid
+*.fbx
+*.blend
+
+# Audio files
+*.wav
+*.mp3
+*.ogg
+*.flac
+*.aac
+
+# Video files
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+
+# Image files (generated or temporary)
+screenshots/
+captures/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.svg
+
+# Exclude specific files but allow examples
+!.env.example
+!*.example.*
+!examples/
+!docs/

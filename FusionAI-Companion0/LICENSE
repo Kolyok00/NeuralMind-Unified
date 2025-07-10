@@ -1,0 +1,132 @@
+MIT License
+
+Copyright (c) 2025 FusionAI Companion Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## Third-Party Licenses
+
+This project incorporates components from various open-source projects, each with their own licenses:
+
+### OpenCode
+- Repository: https://github.com/opencode-ai/opencode
+- License: MIT License
+
+### mcp-crawl4ai-rag
+- Repository: https://github.com/coleam00/mcp-crawl4ai-rag
+- License: MIT License
+
+### local-ai-packaged
+- Repository: https://github.com/coleam00/local-ai-packaged
+- License: MIT License
+
+### ottomator-agents
+- Repository: https://github.com/coleam00/ottomator-agents
+- License: MIT License
+
+### SnekStudio
+- Repository: https://github.com/ExpiredPopsicle/SnekStudio
+- License: MIT License
+
+### Docker Images and Services
+
+#### Ollama
+- Repository: https://github.com/ollama/ollama
+- License: MIT License
+
+#### Open WebUI
+- Repository: https://github.com/open-webui/open-webui
+- License: MIT License
+
+#### n8n
+- Repository: https://github.com/n8n-io/n8n
+- License: Sustainable Use License
+
+#### Neo4j
+- Repository: https://github.com/neo4j/neo4j
+- License: GPL v3 (Community Edition)
+
+#### Supabase
+- Repository: https://github.com/supabase/supabase
+- License: Apache License 2.0
+
+#### Langfuse
+- Repository: https://github.com/langfuse/langfuse
+- License: MIT License
+
+#### SearXNG
+- Repository: https://github.com/searxng/searxng
+- License: GNU Affero General Public License v3.0
+
+#### Crawl4AI
+- Repository: https://github.com/unclecode/crawl4ai
+- License: Apache License 2.0
+
+#### Whisper.cpp
+- Repository: https://github.com/ggerganov/whisper.cpp
+- License: MIT License
+
+#### Caddy
+- Repository: https://github.com/caddyserver/caddy
+- License: Apache License 2.0
+
+#### Redis
+- Repository: https://github.com/redis/redis
+- License: BSD 3-Clause License
+
+## Attribution
+
+Special thanks to:
+
+- **Cole Medin** and his YouTube channel for AI agent development best practices and inspiration
+- **OpenCode** community for the terminal-based AI coding assistant
+- **Open WebUI** team for the modern chat interface
+- **Ollama** team for local LLM infrastructure
+- **Supabase** team for the open-source Firebase alternative
+- **Neo4j** team for graph database technology
+- **n8n** team for workflow automation platform
+- All other open-source contributors who made this project possible
+
+## Compliance Notice
+
+Users of this software are responsible for ensuring compliance with all applicable licenses of the incorporated components. This includes but is not limited to:
+
+1. **GPL v3 Components**: Neo4j Community Edition requires that any derivative works also be licensed under GPL v3 or compatible license.
+
+2. **AGPL v3 Components**: SearXNG requires that network-accessible derivative works provide source code to users.
+
+3. **Commercial Use**: Some components may have different licensing terms for commercial use.
+
+4. **Model Licenses**: AI models downloaded through this system may have their own usage restrictions and licenses.
+
+For commercial deployments, please review the individual licenses of all components and consult with legal counsel if necessary.
+
+## Disclaimer
+
+This project is provided for educational and research purposes. Users are responsible for:
+
+- Complying with all applicable laws and regulations
+- Respecting the terms of service of any external APIs or services used
+- Ensuring proper attribution and license compliance
+- Understanding the limitations and appropriate use cases of AI systems
+- Implementing appropriate security measures for production deployments
+
+The maintainers of this project are not responsible for any misuse, legal issues, or damages arising from the use of this software.

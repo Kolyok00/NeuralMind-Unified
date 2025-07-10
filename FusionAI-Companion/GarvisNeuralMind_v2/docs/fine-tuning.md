@@ -1,0 +1,3 @@
+# Modell finomhangolás
+
+Finomhangolási lépések.
