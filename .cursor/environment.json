@@ -1,7 +1,33 @@
 {
-  "terminals": [],
-  "build": {
-    "context": ".",
-    "dockerfile": "Dockerfile"
-  }
+  "snapshot": "snapshot-20250710-1ca6f277-9b4c-4467-bdaf-d4c66e9e19cb",
+  "terminals": [
+    {
+      "name": "Main Development",
+      "command": "python -m venv venv && source venv/bin/activate && pip install -r requirements.txt"
+    },
+    {
+      "name": "Docker Services",
+      "command": "docker-compose up -d"
+    },
+    {
+      "name": "AI Models (Ollama)",
+      "command": "ollama pull qwen2:7b && ollama pull nomic-embed-text"
+    },
+    {
+      "name": "Web UI",
+      "command": "python main.py"
+    },
+    {
+      "name": "Database Monitor",
+      "command": "docker-compose logs -f supabase-db neo4j redis"
+    },
+    {
+      "name": "AI Services Monitor",
+      "command": "docker-compose logs -f ollama open-webui n8n"
+    },
+    {
+      "name": "GarvisNeuralMind",
+      "command": "python -m venv venv && source venv/bin/activate && pip install -r requirements.txt"
+    }
+  ]
 }
