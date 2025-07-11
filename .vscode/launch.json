@@ -1,0 +1,57 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch FusionAI Companion",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/FusionAI-Companion0/main.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/FusionAI-Companion0",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/FusionAI-Companion0"
+            },
+            "args": []
+        },
+        {
+            "name": "Launch GarvisNeuralMind",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/GarvisNeuralMind_v2/src/main.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/GarvisNeuralMind_v2",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/GarvisNeuralMind_v2/src"
+            },
+            "args": []
+        },
+        {
+            "name": "Launch Web Server",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/FusionAI-Companion0/web_server.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/FusionAI-Companion0",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/FusionAI-Companion0"
+            },
+            "args": []
+        },
+        {
+            "name": "Debug Tests",
+            "type": "python",
+            "request": "launch",
+            "module": "pytest",
+            "args": [
+                "tests/",
+                "-v",
+                "--tb=short"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        }
+    ]
+}
