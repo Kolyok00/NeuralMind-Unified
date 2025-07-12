@@ -1,0 +1,116 @@
+FROM ubuntu:22.04
+
+# Avoid prompts from apt
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Set timezone
+ENV TZ=Europe/Budapest
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    # Basic tools
+    curl \
+    wget \
+    git \
+    vim \
+    nano \
+    unzip \
+    software-properties-common \
+    apt-transport-https \
+    ca-certificates \
+    gnupg \
+    lsb-release \
+    # Build tools
+    build-essential \
+    gcc \
+    g++ \
+    make \
+    # Python
+    python3 \
+    python3-pip \
+    python3-venv \
+    python3-dev \
+    # Node.js (for some tools)
+    nodejs \
+    npm \
+    # Network tools
+    netcat-openbsd \
+    telnet \
+    # JSON processing
+    jq \
+    # Process management
+    supervisor \
+    # Clean up
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Docker CLI
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null \
+    && apt-get update \
+    && apt-get install -y docker-ce-cli docker-compose-plugin \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN groupadd --gid 1000 ubuntu \
+    && useradd --uid 1000 --gid ubuntu --shell /bin/bash --create-home ubuntu \
+    && usermod -aG docker ubuntu
+
+# Install Python packages globally
+RUN pip3 install --upgrade pip setuptools wheel
+
+# Install common Python development packages
+RUN pip3 install \
+    # Core dependencies
+    fastapi \
+    uvicorn[standard] \
+    pydantic \
+    httpx \
+    requests \
+    aiohttp \
+    python-dotenv \
+    pyyaml \
+    loguru \
+    python-multipart \
+    # Development tools
+    black \
+    flake8 \
+    pytest \
+    pytest-asyncio \
+    pytest-cov \
+    # Jupyter for development
+    jupyter \
+    ipython \
+    # Data science basics
+    numpy \
+    pandas \
+    # Database drivers
+    psycopg2-binary \
+    redis \
+    # AI/ML basics
+    openai \
+    anthropic
+
+# Set working directory
+WORKDIR /workspace
+
+# Copy entrypoint script
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Switch to non-root user
+USER ubuntu
+
+# Set environment variables
+ENV PYTHONPATH=/workspace/d_drive/projects/NeuralMind-Unified
+ENV NEURALMIND_ENV=development
+ENV PATH="/home/ubuntu/.local/bin:$PATH"
+
+# Expose development port
+EXPOSE 8888
+
+# Set entrypoint
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+CMD ["sleep", "infinity"]

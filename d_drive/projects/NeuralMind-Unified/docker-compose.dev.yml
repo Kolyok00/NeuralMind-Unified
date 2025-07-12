@@ -1,0 +1,171 @@
+version: '3.8'
+
+services:
+  # ==============================================
+  # Development Container
+  # ==============================================
+  neuralmind-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: neuralmind-dev-container
+    volumes:
+      - ../../../:/workspace:cached
+      - /var/run/docker.sock:/var/run/docker-host.sock
+    environment:
+      - PYTHONPATH=/workspace/d_drive/projects/NeuralMind-Unified
+      - NEURALMIND_ENV=development
+      - NEURALMIND_CONFIG=/workspace/d_drive/projects/NeuralMind-Unified/config/main.json
+      - DOCKER_HOST=unix:///var/run/docker-host.sock
+    ports:
+      - "8888:8888"   # NeuralMind Web UI
+    networks:
+      - neuralmind-dev-network
+    command: sleep infinity
+
+  # ==============================================
+  # Essential Services (Development)
+  # ==============================================
+
+  # Ollama AI Service
+  ollama-dev:
+    image: ollama/ollama:latest
+    container_name: neuralmind-ollama-dev
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_dev_data:/root/.ollama
+    environment:
+      - OLLAMA_ORIGINS=*
+      - OLLAMA_HOST=0.0.0.0
+    restart: unless-stopped
+    networks:
+      - neuralmind-dev-network
+    profiles:
+      - ai-services
+
+  # Open WebUI
+  open-webui-dev:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: neuralmind-open-webui-dev
+    ports:
+      - "3000:8080"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama-dev:11434
+      - WEBUI_SECRET_KEY=${JWT_SECRET:-neuralmind-dev-secret}
+      - WEBUI_AUTH=false
+    volumes:
+      - open_webui_dev_data:/app/backend/data
+    depends_on:
+      - ollama-dev
+    restart: unless-stopped
+    networks:
+      - neuralmind-dev-network
+    profiles:
+      - ai-services
+
+  # n8n Workflows
+  n8n-dev:
+    image: n8nio/n8n:latest
+    container_name: neuralmind-n8n-dev
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=false
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://localhost:5678/
+      - GENERIC_TIMEZONE=Europe/Budapest
+    volumes:
+      - n8n_dev_data:/home/node/.n8n
+    restart: unless-stopped
+    networks:
+      - neuralmind-dev-network
+    profiles:
+      - workflow-services
+
+  # ==============================================
+  # Optional Services (Start on demand)
+  # ==============================================
+
+  # PostgreSQL Database
+  postgres-dev:
+    image: postgres:15-alpine
+    container_name: neuralmind-postgres-dev
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-neuralmind123}
+      - POSTGRES_DB=neuralmind_dev
+      - POSTGRES_USER=neuralmind
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - neuralmind-dev-network
+    profiles:
+      - database-services
+
+  # Redis Cache
+  redis-dev:
+    image: redis:7-alpine
+    container_name: neuralmind-redis-dev
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_dev_data:/data
+    restart: unless-stopped
+    networks:
+      - neuralmind-dev-network
+    profiles:
+      - database-services
+
+  # Neo4j Graph Database
+  neo4j-dev:
+    image: neo4j:5.15-community
+    container_name: neuralmind-neo4j-dev
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      - NEO4J_AUTH=neo4j/${NEO4J_PASSWORD:-neuralmind123}
+      - NEO4J_dbms_security_procedures_unrestricted=gds.*,apoc.*
+      - NEO4J_PLUGINS=["apoc", "graph-data-science"]
+    volumes:
+      - neo4j_dev_data:/data
+    restart: unless-stopped
+    networks:
+      - neuralmind-dev-network
+    profiles:
+      - database-services
+
+# ==============================================
+# Networks
+# ==============================================
+networks:
+  neuralmind-dev-network:
+    driver: bridge
+    name: neuralmind-dev-network
+
+# ==============================================
+# Volumes
+# ==============================================
+volumes:
+  # AI Services
+  ollama_dev_data:
+    name: neuralmind-ollama-dev-data
+  open_webui_dev_data:
+    name: neuralmind-open-webui-dev-data
+  
+  # Workflow
+  n8n_dev_data:
+    name: neuralmind-n8n-dev-data
+  
+  # Databases
+  postgres_dev_data:
+    name: neuralmind-postgres-dev-data
+  redis_dev_data:
+    name: neuralmind-redis-dev-data
+  neo4j_dev_data:
+    name: neuralmind-neo4j-dev-data

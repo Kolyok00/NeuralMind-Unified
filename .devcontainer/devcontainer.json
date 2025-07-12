@@ -1,0 +1,106 @@
+{
+  "name": "NeuralMind Unified Dev Container",
+  "dockerComposeFile": "../d_drive/projects/NeuralMind-Unified/docker-compose.dev.yml",
+  "service": "neuralmind-dev",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "enableNonRootDocker": true,
+      "moby": true
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11",
+      "installTools": true
+    },
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "upgradePackages": true,
+      "username": "ubuntu",
+      "uid": "1000",
+      "gid": "1000"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": false,
+        "python.linting.flake8Enabled": true,
+        "python.formatting.provider": "black",
+        "extensions.ignoreRecommendations": true,
+        "extensions.showRecommendationsOnlyOnDemand": true,
+        "json.validate.enable": false,
+        "json.format.enable": false,
+        "vscode.json-language-features": false,
+        "telemetry.telemetryLevel": "off",
+        "workbench.startupEditor": "none"
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "ms-python.flake8",
+        "ms-vscode.vscode-json"
+      ]
+    }
+  },
+
+  "forwardPorts": [
+    8888,
+    3000,
+    5678,
+    11434
+  ],
+
+  "portsAttributes": {
+    "8888": {
+      "label": "NeuralMind Web UI",
+      "onAutoForward": "notify"
+    },
+    "3000": {
+      "label": "Open WebUI",
+      "onAutoForward": "silent"
+    },
+    "5678": {
+      "label": "n8n Workflows",
+      "onAutoForward": "silent"
+    },
+    "11434": {
+      "label": "Ollama API",
+      "onAutoForward": "silent"
+    }
+  },
+
+  "postCreateCommand": "bash /workspace/.devcontainer/post-create.sh",
+  "postStartCommand": "bash /workspace/.devcontainer/post-start.sh",
+
+  "remoteEnv": {
+    "PYTHONPATH": "/workspace/d_drive/projects/NeuralMind-Unified",
+    "NEURALMIND_ENV": "development",
+    "NEURALMIND_CONFIG": "/workspace/d_drive/projects/NeuralMind-Unified/config/main.json",
+    "DOCKER_HOST": "unix:///var/run/docker.sock",
+    "COMPOSE_DOCKER_CLI_BUILD": "1",
+    "DOCKER_BUILDKIT": "1"
+  },
+
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind",
+    "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
+  ],
+
+  "privileged": false,
+  "init": true,
+  "capAdd": [],
+  "securityOpt": [],
+
+  "remoteUser": "ubuntu"
+}
