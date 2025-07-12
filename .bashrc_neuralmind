@@ -38,19 +38,80 @@ alias dps='docker ps'
 alias dimg='docker images'
 alias dlog='docker logs'
 
-# NeuralMind functions
-neuralmind-help() {
-    echo "🧠 NeuralMind Commands:"
-    echo "  neuralmind      - Start NeuralMind application"
-    echo "  mcp             - Start MCP server"
-    echo "  neural-cd       - Go to NeuralMind directory"
-    echo "  neural-status   - Check NeuralMind status"
-    echo "  neural-test     - Test NeuralMind module import"
-    echo ""
-    echo "📁 Current NeuralMind path: $NEURALMIND_PATH"
-    echo "🐍 Python path: $PYTHONPATH"
-    echo "🔧 Environment: $NEURALMIND_ENV"
+# Docker Management Functions
+docker_start() {
+    echo "🐳 Starting Docker daemon..."
+    /workspace/docker_setup.sh
 }
+
+docker_status() {
+    if sudo docker info > /dev/null 2>&1; then
+        echo "✅ Docker is running"
+        sudo docker version --format "{{.Server.Version}}"
+    else
+        echo "❌ Docker is not running"
+        echo "💡 Run 'docker_start' to start Docker"
+    fi
+}
+
+# MCP (Model Context Protocol) Functions
+mcp_start() {
+    echo "🧠 Starting NeuralMind MCP Server..."
+    cd /workspace/d_drive/projects/NeuralMind-Unified
+    python3 -m neuralmind.mcp_server &
+    echo "✅ MCP Server started on port 3001"
+    echo "🔗 Connect in Cursor: mcp://localhost:3001"
+}
+
+mcp_test() {
+    echo "🧪 Testing MCP connection..."
+    if curl -s http://localhost:3001/health > /dev/null 2>&1; then
+        echo "✅ MCP Server is responding"
+    else
+        echo "❌ MCP Server not responding"
+        echo "💡 Run 'mcp_start' to start the server"
+    fi
+}
+
+# Enhanced help function
+neuralmind-help() {
+    echo "🧠 NeuralMind Development Environment"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+    echo "📁 PROJECT STRUCTURE:"
+    echo "  Main:   /workspace/d_drive/projects/NeuralMind-Unified"
+    echo "  Backup: /workspace/backup/"
+    echo ""
+    echo "🐳 DOCKER COMMANDS:"
+    echo "  docker_start    - Start Docker daemon"
+    echo "  docker_status   - Check Docker status"
+    echo "  neural-start    - Start all services (ai, db, workflow)"
+    echo "  neural-ai       - Start AI services only"
+    echo "  neural-db       - Start database services only"
+    echo "  neural-workflow - Start workflow services only"
+    echo "  neural-stop     - Stop all services"
+    echo ""
+    echo "🧠 MCP (Model Context Protocol):"
+    echo "  mcp_start       - Start NeuralMind MCP Server"
+    echo "  mcp_test        - Test MCP connection"
+    echo ""
+    echo "🔧 JSON TOOLS:"
+    echo "  json_validate <file>     - Validate JSON file"
+    echo "  json_format <file>       - Format JSON file"
+    echo "  json_query <file> <expr> - Query JSON with jq"
+    echo ""
+    echo "� QUICK START:"
+    echo "  1. docker_start          # Start Docker"
+    echo "  2. neural-ai             # Start AI services"
+    echo "  3. mcp_start             # Start MCP server"
+    echo "  4. Open Cursor and connect to mcp://localhost:3001"
+    echo ""
+    echo "📍 Current location: $(pwd)"
+    echo "� Environment: Ubuntu $(lsb_release -rs) with Bash"
+}
+
+# Export new functions
+export -f docker_start docker_status mcp_start mcp_test neuralmind-help
 
 # Custom prompt with NeuralMind info
 neuralmind-prompt() {

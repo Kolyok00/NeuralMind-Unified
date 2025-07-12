@@ -1,57 +1,60 @@
 #!/bin/bash
-# JSON Processing Tools for Ubuntu Dev Container
 
-# Check if jq is installed, install if not
-if ! command -v jq &> /dev/null; then
-    echo "📦 Installing jq for JSON processing..."
-    apt update && apt install -y jq 2>/dev/null || echo "jq installation requires sudo"
-fi
+# JSON processing tools using jq
+# ✅ jq successfully installed!
 
-# JSON processing functions
 json_validate() {
-    if [ $# -eq 0 ]; then
-        echo "Usage: json_validate <file.json>"
+    if [ -z "$1" ]; then
+        echo "Usage: json_validate <file>"
         return 1
     fi
     
-    if command -v jq &> /dev/null; then
-        jq empty "$1" 2>/dev/null && echo "✅ Valid JSON" || echo "❌ Invalid JSON"
+    if [ ! -f "$1" ]; then
+        echo "❌ File not found: $1"
+        return 1
+    fi
+    
+    if jq empty "$1" 2>/dev/null; then
+        echo "✅ Valid JSON: $1"
+        return 0
     else
-        python3 -c "import json; json.load(open('$1'))" 2>/dev/null && echo "✅ Valid JSON" || echo "❌ Invalid JSON"
+        echo "❌ Invalid JSON: $1"
+        jq empty "$1"
+        return 1
     fi
 }
 
 json_format() {
-    if [ $# -eq 0 ]; then
-        echo "Usage: json_format <file.json>"
+    if [ -z "$1" ]; then
+        echo "Usage: json_format <file>"
         return 1
     fi
     
-    if command -v jq &> /dev/null; then
-        jq . "$1"
-    else
-        python3 -c "import json; print(json.dumps(json.load(open('$1')), indent=2))"
+    if [ ! -f "$1" ]; then
+        echo "❌ File not found: $1"
+        return 1
     fi
+    
+    jq '.' "$1"
 }
 
 json_query() {
-    if [ $# -lt 2 ]; then
-        echo "Usage: json_query <file.json> <query>"
-        echo "Example: json_query config.json '.database.host'"
+    if [ -z "$1" ] || [ -z "$2" ]; then
+        echo "Usage: json_query <file> <jq_expression>"
+        echo "Example: json_query package.json '.dependencies'"
         return 1
     fi
     
-    if command -v jq &> /dev/null; then
-        jq "$2" "$1"
-    else
-        echo "jq not available, use Python for complex JSON queries"
+    if [ ! -f "$1" ]; then
+        echo "❌ File not found: $1"
+        return 1
     fi
+    
+    jq "$2" "$1"
 }
 
 # Export functions
-export -f json_validate
-export -f json_format
-export -f json_query
+export -f json_validate json_format json_query
 
 echo "🔧 JSON tools loaded:"
 echo "  json_validate <file>  - Validate JSON file"
