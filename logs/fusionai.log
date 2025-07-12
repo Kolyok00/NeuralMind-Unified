@@ -1,0 +1,7 @@
+2025-07-12 12:53:51,137 - __main__ - INFO - Initializing FusionAI Companion...
+2025-07-12 12:53:51,137 - __main__ - INFO - Initializing Core Agent...
+2025-07-12 12:53:51,137 - core_agent.agent_manager - INFO - Initializing AgentManager with provider: ollama
+2025-07-12 12:53:51,161 - core_agent.agent_manager - ERROR - Service check failed: All connection attempts failed
+2025-07-12 12:53:51,161 - core_agent.agent_manager - ERROR - Error initializing AgentManager: All connection attempts failed
+2025-07-12 12:53:51,161 - __main__ - ERROR - Error during initialization: All connection attempts failed
+2025-07-12 12:53:51,161 - __main__ - ERROR - Application error: All connection attempts failed
