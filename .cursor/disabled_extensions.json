@@ -1,0 +1,17 @@
+{
+    "disabled_extensions": [
+        "ms-vscode.powershell"
+    ],
+    "reason": "PowerShell not needed in Ubuntu dev container - using Bash instead",
+    "alternative_shells": [
+        "bash",
+        "zsh",
+        "fish"
+    ],
+    "recommended_for_linux": {
+        "shell": "bash",
+        "scripting": "bash",
+        "automation": "python3",
+        "package_manager": "apt"
+    }
+}

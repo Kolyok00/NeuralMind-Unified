@@ -1,0 +1,68 @@
+#!/bin/bash
+# NeuralMind Bash Aliases and Functions
+
+# Set NeuralMind environment
+export NEURALMIND_PATH="/workspace/d_drive/projects/NeuralMind-Unified"
+export PYTHONPATH="$NEURALMIND_PATH"
+export NEURALMIND_ENV="development"
+
+# NeuralMind aliases
+alias neuralmind='cd "$NEURALMIND_PATH" && python3 main.py'
+alias mcp='cd "$NEURALMIND_PATH" && python3 -m neuralmind.mcp_server'
+alias neural-cd='cd "$NEURALMIND_PATH"'
+alias neural-status='cd "$NEURALMIND_PATH" && python3 main.py --help'
+alias neural-test='cd "$NEURALMIND_PATH" && python3 -c "import neuralmind; print(\"NeuralMind module loaded successfully\")"'
+
+# Useful Linux aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+# Git aliases
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push'
+alias gl='git log --oneline'
+
+# Python aliases
+alias py='python3'
+alias pip='pip3'
+alias venv='python3 -m venv'
+
+# Docker aliases (if needed)
+alias dps='docker ps'
+alias dimg='docker images'
+alias dlog='docker logs'
+
+# NeuralMind functions
+neuralmind-help() {
+    echo "🧠 NeuralMind Commands:"
+    echo "  neuralmind      - Start NeuralMind application"
+    echo "  mcp             - Start MCP server"
+    echo "  neural-cd       - Go to NeuralMind directory"
+    echo "  neural-status   - Check NeuralMind status"
+    echo "  neural-test     - Test NeuralMind module import"
+    echo ""
+    echo "📁 Current NeuralMind path: $NEURALMIND_PATH"
+    echo "🐍 Python path: $PYTHONPATH"
+    echo "🔧 Environment: $NEURALMIND_ENV"
+}
+
+# Custom prompt with NeuralMind info
+neuralmind-prompt() {
+    local git_branch=""
+    if [ -d .git ]; then
+        git_branch=" ($(git branch --show-current 2>/dev/null))"
+    fi
+    
+    PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[33m\]$git_branch\[\033[00m\]$ "
+}
+
+# Welcome message
+echo "🧠 NeuralMind Development Environment Ready!"
+echo "📍 Use 'neuralmind-help' for available commands"
+echo "🐧 Running on Ubuntu with Bash (no PowerShell needed!)"
