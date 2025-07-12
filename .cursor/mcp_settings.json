@@ -1,0 +1,64 @@
+{
+    "mcpServers": {
+        "neuralmind-unified": {
+            "command": "python",
+            "args": [
+                "-m",
+                "neuralmind.mcp_server"
+            ],
+            "cwd": "/workspace/d_drive/projects/NeuralMind-Unified",
+            "env": {
+                "PYTHONPATH": "/workspace/d_drive/projects/NeuralMind-Unified",
+                "NEURALMIND_ENV": "development",
+                "NEURALMIND_CONFIG": "/workspace/d_drive/projects/NeuralMind-Unified/config/main.json"
+            }
+        },
+        "neuralmind-filesystem": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-filesystem",
+                "/workspace/d_drive/projects/NeuralMind-Unified"
+            ],
+            "cwd": "/workspace/d_drive/projects/NeuralMind-Unified"
+        },
+        "neuralmind-git": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-git",
+                "--repository",
+                "/workspace/d_drive/projects/NeuralMind-Unified"
+            ],
+            "cwd": "/workspace/d_drive/projects/NeuralMind-Unified"
+        },
+        "neuralmind-python": {
+            "command": "python",
+            "args": [
+                "-m",
+                "mcp",
+                "install",
+                "python"
+            ],
+            "cwd": "/workspace/d_drive/projects/NeuralMind-Unified",
+            "env": {
+                "PYTHONPATH": "/workspace/d_drive/projects/NeuralMind-Unified"
+            }
+        }
+    },
+    "globalShortcuts": [
+        {
+            "key": "ctrl+shift+n",
+            "command": "neuralmind.openMainProject",
+            "args": {
+                "path": "/workspace/d_drive/projects/NeuralMind-Unified"
+            }
+        }
+    ],
+    "projectSettings": {
+        "defaultWorkspace": "/workspace/d_drive/projects/NeuralMind-Unified",
+        "autoActivateVenv": true,
+        "pythonInterpreter": "/workspace/d_drive/projects/NeuralMind-Unified/venv/bin/python",
+        "environmentFile": "/workspace/d_drive/projects/NeuralMind-Unified/.env"
+    }
+}

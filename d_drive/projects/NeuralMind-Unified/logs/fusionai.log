@@ -1,0 +1,21 @@
+2025-07-12 12:53:51,137 - __main__ - INFO - Initializing FusionAI Companion...
+2025-07-12 12:53:51,137 - __main__ - INFO - Initializing Core Agent...
+2025-07-12 12:53:51,137 - core_agent.agent_manager - INFO - Initializing AgentManager with provider: ollama
+2025-07-12 12:53:51,161 - core_agent.agent_manager - ERROR - Service check failed: All connection attempts failed
+2025-07-12 12:53:51,161 - core_agent.agent_manager - ERROR - Error initializing AgentManager: All connection attempts failed
+2025-07-12 12:53:51,161 - __main__ - ERROR - Error during initialization: All connection attempts failed
+2025-07-12 12:53:51,161 - __main__ - ERROR - Application error: All connection attempts failed
+2025-07-12 12:58:52,251 - __main__ - INFO - Initializing FusionAI Companion...
+2025-07-12 12:58:52,251 - __main__ - INFO - Initializing Core Agent...
+2025-07-12 12:58:52,251 - core_agent.agent_manager - INFO - Initializing AgentManager with provider: ollama
+2025-07-12 12:58:52,276 - core_agent.agent_manager - ERROR - Service check failed: All connection attempts failed
+2025-07-12 12:58:52,277 - core_agent.agent_manager - ERROR - Error initializing AgentManager: All connection attempts failed
+2025-07-12 12:58:52,277 - __main__ - ERROR - Error during initialization: All connection attempts failed
+2025-07-12 12:58:52,277 - __main__ - ERROR - Application error: All connection attempts failed
+2025-07-12 13:04:20,332 - __main__ - INFO - Initializing FusionAI Companion...
+2025-07-12 13:04:20,332 - __main__ - INFO - Initializing Core Agent...
+2025-07-12 13:04:20,332 - core_agent.agent_manager - INFO - Initializing AgentManager with provider: ollama
+2025-07-12 13:04:20,358 - core_agent.agent_manager - ERROR - Service check failed: All connection attempts failed
+2025-07-12 13:04:20,358 - core_agent.agent_manager - ERROR - Error initializing AgentManager: All connection attempts failed
+2025-07-12 13:04:20,358 - __main__ - ERROR - Error during initialization: All connection attempts failed
+2025-07-12 13:04:20,358 - __main__ - ERROR - Application error: All connection attempts failed

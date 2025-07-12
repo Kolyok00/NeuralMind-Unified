@@ -1,0 +1,277 @@
+version: '3.8'
+
+services:
+  # ==============================================
+  # Core AI Services
+  # ==============================================
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: fusionai-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+      - ./models:/models
+    environment:
+      - OLLAMA_ORIGINS=*
+      - OLLAMA_HOST=0.0.0.0
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+    networks:
+      - fusionai-network
+
+  # ==============================================
+  # Database Services
+  # ==============================================
+
+  supabase-db:
+    image: supabase/postgres:15.1.0.117
+    container_name: fusionai-supabase-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: ${SUPABASE_DB_PASSWORD:-your_postgres_password}
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+    volumes:
+      - supabase_db_data:/var/lib/postgresql/data
+      - ./supabase/migrations:/docker-entrypoint-initdb.d
+    command: >
+      postgres
+      -c wal_level=logical
+      -c max_replication_slots=5
+      -c max_wal_senders=5
+    restart: unless-stopped
+    networks:
+      - fusionai-network
+
+  neo4j:
+    image: neo4j:5.15-community
+    container_name: fusionai-neo4j
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      NEO4J_AUTH: neo4j/${NEO4J_PASSWORD:-neo4j123}
+      NEO4J_dbms_security_procedures_unrestricted: gds.*,apoc.*
+      NEO4J_dbms_security_procedures_allowlist: gds.*,apoc.*
+      NEO4J_apoc_export_file_enabled: true
+      NEO4J_apoc_import_file_enabled: true
+      NEO4J_apoc_import_file_use__neo4j__config: true
+      NEO4J_PLUGINS: '["apoc", "graph-data-science"]'
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+      - neo4j_import:/var/lib/neo4j/import
+      - neo4j_plugins:/plugins
+    restart: unless-stopped
+    networks:
+      - fusionai-network
+
+  # ==============================================
+  # Web Crawling and Search
+  # ==============================================
+
+  searxng:
+    image: searxng/searxng:latest
+    container_name: fusionai-searxng
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./searxng:/etc/searxng
+    environment:
+      - SEARXNG_BASE_URL=http://localhost:8080/
+    restart: unless-stopped
+    networks:
+      - fusionai-network
+
+  crawl4ai:
+    image: unclecode/crawl4ai:latest
+    container_name: fusionai-crawl4ai
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - crawl4ai_data:/app/data
+    restart: unless-stopped
+    networks:
+      - fusionai-network
+
+  # ==============================================
+  # Workflow Automation
+  # ==============================================
+
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: fusionai-n8n
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=${N8N_BASIC_AUTH_ACTIVE:-false}
+      - N8N_BASIC_AUTH_USER=${N8N_BASIC_AUTH_USER:-admin}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_BASIC_AUTH_PASSWORD}
+      - N8N_HOST=${N8N_HOST:-localhost}
+      - N8N_PORT=${N8N_PORT:-5678}
+      - N8N_PROTOCOL=${N8N_PROTOCOL:-http}
+      - WEBHOOK_URL=http://localhost:5678/
+      - GENERIC_TIMEZONE=Europe/Budapest
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./workflows:/workflows
+    restart: unless-stopped
+    networks:
+      - fusionai-network
+
+  # ==============================================
+  # AI Chat Interface
+  # ==============================================
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: fusionai-open-webui
+    ports:
+      - "3000:8080"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - WEBUI_SECRET_KEY=${JWT_SECRET:-your-secret-key}
+      - WEBUI_AUTH=false
+    volumes:
+      - open_webui_data:/app/backend/data
+    depends_on:
+      - ollama
+    restart: unless-stopped
+    networks:
+      - fusionai-network
+
+  # ==============================================
+  # Monitoring and Analytics
+  # ==============================================
+
+  langfuse:
+    image: langfuse/langfuse:latest
+    container_name: fusionai-langfuse
+    ports:
+      - "3001:3000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:${SUPABASE_DB_PASSWORD:-your_postgres_password}@supabase-db:5432/langfuse
+      - NEXTAUTH_SECRET=${JWT_SECRET:-your-secret-key}
+      - NEXTAUTH_URL=http://localhost:3001
+      - LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES=true
+    depends_on:
+      - supabase-db
+    restart: unless-stopped
+    networks:
+      - fusionai-network
+
+  # ==============================================
+  # Audio Processing
+  # ==============================================
+
+  whisper-cpp:
+    image: ggerganov/whisper.cpp:latest
+    container_name: fusionai-whisper
+    ports:
+      - "8081:8080"
+    volumes:
+      - whisper_models:/models
+      - ./audio:/audio
+    command: >
+      ./server
+      -m /models/ggml-base.bin
+      --host 0.0.0.0
+      --port 8080
+    restart: unless-stopped
+    networks:
+      - fusionai-network
+
+  # ==============================================
+  # Development Tools
+  # ==============================================
+
+  redis:
+    image: redis:7-alpine
+    container_name: fusionai-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - fusionai-network
+
+  # ==============================================
+  # Reverse Proxy & Load Balancer
+  # ==============================================
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: fusionai-caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
+    networks:
+      - fusionai-network
+
+# ==============================================
+# Networks
+# ==============================================
+
+networks:
+  fusionai-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+# ==============================================
+# Volumes
+# ==============================================
+
+volumes:
+  # AI Models and Data
+  ollama_data:
+    driver: local
+  whisper_models:
+    driver: local
+  crawl4ai_data:
+    driver: local
+
+  # Databases
+  supabase_db_data:
+    driver: local
+  neo4j_data:
+    driver: local
+  neo4j_logs:
+    driver: local
+  neo4j_import:
+    driver: local
+  neo4j_plugins:
+    driver: local
+  redis_data:
+    driver: local
+
+  # Applications
+  n8n_data:
+    driver: local
+  open_webui_data:
+    driver: local
+
+  # Proxy
+  caddy_data:
+    driver: local
+  caddy_config:
+    driver: local

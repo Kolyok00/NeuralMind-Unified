@@ -1,0 +1,40 @@
+{
+  "core_agent": {
+    "enabled": true,
+    "provider": "ollama",
+    "model": "qwen2:7b",
+    "max_tokens": 4096,
+    "temperature": 0.1
+  },
+  "embedding": {
+    "enabled": true,
+    "model": "nomic-embed-text",
+    "chunk_size": 1000,
+    "chunk_overlap": 200
+  },
+  "vtuber": {
+    "enabled": false,
+    "model_path": "vtuber/models/default.vrm",
+    "voice_enabled": true,
+    "animation_enabled": true
+  },
+  "workflows": {
+    "enabled": true,
+    "auto_start": [
+      "health_check",
+      "model_warmup"
+    ],
+    "n8n_url": "http://localhost:5678"
+  },
+  "web_ui": {
+    "enabled": true,
+    "host": "0.0.0.0",
+    "port": 8888,
+    "cors_enabled": true
+  },
+  "monitoring": {
+    "enabled": true,
+    "langfuse_enabled": true,
+    "metrics_interval": 60
+  }
+}
