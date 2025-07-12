@@ -1,0 +1,95 @@
+{
+    "powershell": {
+        "powerShellAdditionalExePaths": [
+            {
+                "exePath": "/usr/bin/pwsh",
+                "versionName": "PowerShell Core 7.x",
+                "description": "PowerShell Core installed via package manager"
+            },
+            {
+                "exePath": "/opt/microsoft/powershell/7/pwsh",
+                "versionName": "PowerShell 7 (Microsoft)",
+                "description": "Official Microsoft PowerShell 7 installation"
+            },
+            {
+                "exePath": "/usr/local/bin/pwsh",
+                "versionName": "PowerShell Local Install",
+                "description": "Locally compiled or custom PowerShell installation"
+            },
+            {
+                "exePath": "/snap/bin/pwsh",
+                "versionName": "PowerShell Snap",
+                "description": "PowerShell installed via Snap package"
+            }
+        ],
+        "powerShellDefaultVersion": "PowerShell Core 7.x",
+        "integratedConsole": {
+            "showOnStartup": false,
+            "focusConsoleOnExecute": true
+        },
+        "debugging": {
+            "createTemporaryIntegratedConsole": false
+        },
+        "scriptAnalysis": {
+            "enable": true,
+            "settingsPath": ""
+        },
+        "codeFormatting": {
+            "preset": "OTBS",
+            "openBraceOnSameLine": true,
+            "newLineAfterOpenBrace": true,
+            "newLineAfterCloseBrace": true,
+            "pipelineIndentationStyle": "IncreaseIndentationForFirstPipeline",
+            "whitespaceBeforeOpenBrace": true,
+            "whitespaceBeforeOpenParen": true,
+            "whitespaceAroundOperator": true,
+            "whitespaceAfterSeparator": true,
+            "ignoreOneLineBlock": true,
+            "alignPropertyValuePairs": true
+        }
+    },
+    "terminal": {
+        "integrated": {
+            "defaultProfile": {
+                "linux": "bash",
+                "windows": "PowerShell",
+                "osx": "zsh"
+            },
+            "profiles": {
+                "linux": {
+                    "bash": {
+                        "path": "/bin/bash",
+                        "icon": "terminal-bash",
+                        "args": []
+                    },
+                    "pwsh": {
+                        "path": "/usr/bin/pwsh",
+                        "icon": "terminal-powershell",
+                        "args": [
+                            "-NoLogo"
+                        ]
+                    },
+                    "zsh": {
+                        "path": "/bin/zsh",
+                        "icon": "terminal",
+                        "args": []
+                    }
+                }
+            },
+            "env": {
+                "linux": {
+                    "PYTHONPATH": "${workspaceFolder}",
+                    "NEURALMIND_ENV": "development",
+                    "NEURALMIND_CONFIG": "${workspaceFolder}/d_drive/projects/NeuralMind-Unified/config/main.json"
+                }
+            }
+        }
+    },
+    "extensions": {
+        "powershell": {
+            "enableProfileLoading": true,
+            "bugReporting": false,
+            "helpCompletion": "BlockComment"
+        }
+    }
+}

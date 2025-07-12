@@ -6,7 +6,9 @@
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
     "python.formatting.provider": "black",
-    "python.formatting.blackArgs": ["--line-length=88"],
+    "python.formatting.blackArgs": [
+        "--line-length=88"
+    ],
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
         "source.organizeImports": "explicit"
@@ -36,5 +38,32 @@
     },
     "terminal.integrated.env.osx": {
         "PYTHONPATH": "${workspaceFolder}"
-    }
+    },
+    "powershell.powerShellAdditionalExePaths": [
+        {
+            "exePath": "/usr/bin/pwsh",
+            "versionName": "PowerShell Core"
+        },
+        {
+            "exePath": "/opt/microsoft/powershell/7/pwsh",
+            "versionName": "PowerShell 7"
+        },
+        {
+            "exePath": "/usr/local/bin/pwsh",
+            "versionName": "PowerShell Local"
+        }
+    ],
+    "powershell.powerShellDefaultVersion": "PowerShell Core",
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.profiles.linux": {
+        "bash": {
+            "path": "/bin/bash",
+            "icon": "terminal-bash"
+        },
+        "pwsh": {
+            "path": "/usr/bin/pwsh",
+            "icon": "terminal-powershell"
+        }
+    },
+    "terminal.integrated.shell.linux": "/bin/bash"
 }
