@@ -1,17 +1,26 @@
 {
     "disabled_extensions": [
-        "ms-vscode.powershell"
+        "ms-vscode.powershell",
+        "vscode.json-language-features",
+        "vscode.typescript-language-features",
+        "vscode.javascript-language-features"
     ],
-    "reason": "PowerShell not needed in Ubuntu dev container - using Bash instead",
-    "alternative_shells": [
-        "bash",
-        "zsh",
-        "fish"
-    ],
+    "reason": "Unnecessary extensions disabled in Ubuntu dev container - using minimal setup for better performance",
+    "alternative_tools": {
+        "json": "python json module, jq command line tool",
+        "typescript": "tsc command line compiler",
+        "javascript": "node.js runtime",
+        "shell": "bash",
+        "scripting": "bash, python3",
+        "automation": "python3, bash scripts",
+        "package_manager": "apt, pip3"
+    },
     "recommended_for_linux": {
         "shell": "bash",
-        "scripting": "bash",
+        "scripting": "bash, python3",
         "automation": "python3",
-        "package_manager": "apt"
+        "package_manager": "apt",
+        "json_processing": "jq, python json",
+        "text_editing": "vim, nano, built-in editor"
     }
 }

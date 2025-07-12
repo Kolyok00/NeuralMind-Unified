@@ -1,0 +1,43 @@
+{
+    "extension_overrides": {
+        "vscode.json-language-features": {
+            "enabled": false,
+            "reason": "Causes errors in dev container",
+            "alternative": "Use Python json module or jq for JSON processing"
+        },
+        "ms-vscode.powershell": {
+            "enabled": false,
+            "reason": "Not needed in Ubuntu container",
+            "alternative": "Use bash for shell scripting"
+        },
+        "vscode.typescript-language-features": {
+            "enabled": false,
+            "reason": "Not needed for Python-focused development",
+            "alternative": "Use tsc command line if TypeScript needed"
+        },
+        "vscode.javascript-language-features": {
+            "enabled": false,
+            "reason": "Not needed for Python-focused development", 
+            "alternative": "Use node.js runtime directly if JavaScript needed"
+        }
+    },
+    "minimal_setup": {
+        "enabled_features": [
+            "python language support",
+            "git integration",
+            "terminal",
+            "file explorer",
+            "search",
+            "basic text editing"
+        ],
+        "disabled_features": [
+            "json language server",
+            "typescript language server",
+            "javascript language server",
+            "powershell integration",
+            "extension recommendations",
+            "telemetry",
+            "welcome screens"
+        ]
+    }
+}
