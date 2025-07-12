@@ -87,9 +87,25 @@
     },
     "extensions": {
         "powershell": {
-            "enableProfileLoading": true,
+            "enableProfileLoading": false,
             "bugReporting": false,
-            "helpCompletion": "BlockComment"
+            "helpCompletion": "Disabled",
+            "promptToUpdatePowerShell": false,
+            "integratedConsole.showOnStartup": false,
+            "scriptAnalysis.enable": false,
+            "buttons.showPanelMovementButtons": false,
+            "buttons.showRunButtons": false,
+            "developer.editorServicesLogLevel": "Error",
+            "developer.editorServicesWaitForDebugger": false,
+            "codeFormatting.autoCorrectAliases": false
         }
+    },
+    "notifications": {
+        "disabled": true,
+        "powershell_update_prompts": false,
+        "extension_recommendations": false,
+        "welcome_messages": false,
+        "release_notes": false,
+        "startup_performance": false
     }
 }

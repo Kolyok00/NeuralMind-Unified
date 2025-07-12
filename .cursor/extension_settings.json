@@ -1,0 +1,13 @@
+{
+    "ms-vscode.powershell": {
+        "promptToUpdatePowerShell": false,
+        "integratedConsole.showOnStartup": false,
+        "enableProfileLoading": false,
+        "scriptAnalysis.enable": false,
+        "bugReporting": false,
+        "helpCompletion": "Disabled",
+        "buttons.showPanelMovementButtons": false,
+        "buttons.showRunButtons": false,
+        "developer.editorServicesLogLevel": "Error"
+    }
+}

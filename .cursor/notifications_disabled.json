@@ -1,0 +1,59 @@
+{
+    "notifications": {
+        "powershell": {
+            "updatePrompts": false,
+            "installationPrompts": false,
+            "extensionRecommendations": false,
+            "profileLoadingWarnings": false,
+            "scriptAnalysisWarnings": false,
+            "debuggingNotifications": false
+        },
+        "extensions": {
+            "showRecommendationsOnlyOnDemand": true,
+            "ignoreRecommendations": true,
+            "showExtensionsOnlyFromTrustedPublishers": true,
+            "autoUpdate": false,
+            "autoCheckUpdates": false
+        },
+        "general": {
+            "showWelcomeOnInstall": false,
+            "showReleaseNotes": false,
+            "showStartupPerformance": false,
+            "showSettingsSync": false
+        }
+    },
+    "powershell_extension_settings": {
+        "ms-vscode.powershell": {
+            "promptToUpdatePowerShell": false,
+            "integratedConsole.showOnStartup": false,
+            "enableProfileLoading": false,
+            "scriptAnalysis.enable": false,
+            "bugReporting": false,
+            "helpCompletion": "Disabled",
+            "buttons.showPanelMovementButtons": false,
+            "buttons.showRunButtons": false,
+            "developer.editorServicesLogLevel": "Error",
+            "developer.editorServicesWaitForDebugger": false,
+            "codeFormatting.autoCorrectAliases": false,
+            "codeFormatting.addWhitespaceAroundPipe": false,
+            "codeFormatting.trimWhitespaceAroundPipe": false,
+            "codeFormatting.useConstantStrings": false,
+            "codeFormatting.useCorrectCasing": false
+        }
+    },
+    "disabled_notifications": [
+        "powershell.promptToUpdatePowerShell",
+        "powershell.installationNotification",
+        "powershell.extensionRecommendation",
+        "powershell.profileLoadingWarning",
+        "powershell.scriptAnalysisWarning",
+        "powershell.debuggingNotification",
+        "extensions.recommendationsNotification",
+        "extensions.installationPrompt",
+        "workbench.welcomeMessage",
+        "workbench.releaseNotes",
+        "workbench.startupPerformance",
+        "workbench.settingsSync"
+    ],
+    "description": "Configuration to disable PowerShell and other annoying notifications in Cursor/VSCode that appear on window reload"
+}
