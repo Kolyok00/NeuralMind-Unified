@@ -1,3 +1,0 @@
-# API Integrációk
-
-Integrációs lehetőségek.
